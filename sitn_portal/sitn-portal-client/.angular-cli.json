@@ -5,7 +5,7 @@
   },
   "apps": [
     {
-      "name": "sitn-docs",
+      "name": "sitn-portal",
       "root": "src",
       "outDir": "dist",
       "assets": [
@@ -13,7 +13,7 @@
         "favicon.ico"
       ],
       "index": "index.html",
-      "main": "main.ts",
+      "main": "sitn_portal.ts",
       "polyfills": "polyfills.ts",
       "test": "test.ts",
       "tsconfig": "tsconfig.app.json",
@@ -29,20 +29,20 @@
         "prod": "environments/environment.prod.ts"
       }
     },{
-      "name": "sitn-docs2",
+      "name": "sitn-docs",
       "root": "src",
       "outDir": "dist2",
       "assets": [
         "assets",
         "favicon.ico"
       ],
-      "index": "test2.html",
-      "main": "main.ts",
+      "index": "docs.html",
+      "main": "sitn_docs.ts",
       "polyfills": "polyfills.ts",
       "test": "test.ts",
       "tsconfig": "tsconfig.app.json",
       "testTsconfig": "tsconfig.spec.json",
-      "prefix": "app",
+      "prefix": "docs",
       "styles": [
         "styles.css"
       ],
