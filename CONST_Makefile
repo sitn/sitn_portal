@@ -94,5 +94,5 @@ update-node-modules:
 
 .PHONY: build-frontend
 build-frontend:
-	cd $(ANGULAR_BASE_DIR) $(foreach angular_app,$(ANGULAR_APPS), && ng build --app=$(angular_app))
+	cd $(ANGULAR_BASE_DIR) $(foreach angular_app,$(ANGULAR_APPS), && ng build --app=$(angular_app) --target=production)
 

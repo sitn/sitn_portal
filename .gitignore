@@ -6,8 +6,8 @@
 
 # Angular stuff
 sitn_portal/sitn-portal-client/node_modules
-sitn_portal/sitn-portal-client/dist
-sitn_portal/sitn-portal-client/dist2
+sitn_portal/sitn-portal-client/sitn-portal-build
+sitn_portal/sitn-portal-client/sitn-docs-build
 sitn_portal/sitn-portal-client/tmp
 sitn_portal/sitn-portal-client/out-tsc
 sitn_portal/sitn-portal-client/.sass-cache
