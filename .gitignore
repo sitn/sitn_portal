@@ -1,0 +1,20 @@
+# General and Pyramid ignores
+*~
+*.pyc
+/.build
+/sitn_portal.egg-info
+
+# Angular stuff
+sitn_portal/sitn-portal-client/node_modules
+sitn_portal/sitn-portal-client/dist
+sitn_portal/sitn-portal-client/dist2
+sitn_portal/sitn-portal-client/tmp
+sitn_portal/sitn-portal-client/out-tsc
+sitn_portal/sitn-portal-client/.sass-cache
+sitn_portal/sitn-portal-client/npm-debug.log
+sitn_portal/sitn-portal-client/e2e/*.js
+sitn_portal/sitn-portal-client/e2e/*.map
+
+# Developer config files
+michael.mk
+vars_michael.yaml

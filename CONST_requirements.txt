@@ -1,0 +1,2 @@
+-r CONST_versions.txt
+-e .

@@ -1,0 +1,27 @@
+vars:
+    # project instance id
+    instanceid: INSTANCE_ID
+    # the package name
+    package: PACKAGE
+    # url-path where the instance must respond.
+    apache_entry_point: APACHE_ENTRY_POINT
+    # database user
+    dbuser: overwriteme
+    # database password
+    dbpassword: overwriteme
+    # database host
+    dbhost: localhost
+    # database port
+    dbport: 5432
+    # database name
+    db: overwriteme
+
+    sqlalchemy:
+        url: postgresql://{dbuser}:{dbpassword}@{dbhost}:{dbport}/{db}
+
+interpreted:
+    #~ python:
+    #~ - python_path
+    #~ - directory
+    environment:
+    - instanceid

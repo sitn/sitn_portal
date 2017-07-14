@@ -1,0 +1,84 @@
+VENV_BIN ?= .build/venv/Scripts
+INSTANCE_ID ?= sitn_portal
+
+DEVELOPMENT ?= FALSE
+PACKAGE ?= sitn_portal
+
+PIP_CMD ?= $(VENV_BIN)/pip
+PIP_INSTALL_ARGS ?= install
+
+# Apache
+APACHE_ENTRY_POINT ?= /$(INSTANCE_ID)/
+
+# Make rules
+
+BUILD_RULES ?= .build/requirements.timestamp template-generate
+
+# REQUIREMENTS
+
+CONST_REQUIREMENT ?= CONST_requirements.txt
+EGGS_DEPENDENCIES += .build/venv.timestamp-noclean setup.py CONST_versions.txt $(CONST_REQUIREMENT)
+REQUIREMENTS += -r $(CONST_REQUIREMENT)
+
+# Templates
+TEMPLATE_EXCLUDE += .build node_modules $(PACKAGE)/static/lib
+FIND_OPTS = $(foreach ELEM, $(TEMPLATE_EXCLUDE),-path ./$(ELEM) -prune -o) -type f
+MAKO_FILES = $(shell find $(FIND_OPTS) -name "*.mako" -print)
+VARS_FILES += CONST_vars.yaml $(VARS_FILE)
+VARS_DEPENDS += $(VARS_FILES) .build/node_modules.timestamp
+CONFIG_VARS += sqlalchemy.url
+ENVIRONMENT_VARS += INSTANCE_ID=${INSTANCE_ID} \
+	APACHE_ENTRY_POINT=$(APACHE_ENTRY_POINT) \
+	DEVELOPMENT=${DEVELOPMENT} \
+	PACKAGE=${PACKAGE}
+C2C_TEMPLATE_CMD = $(ENVIRONMENT_VARS) $(VENV_BIN)/c2c-template --vars $(VARS_FILE)
+MAKE_FILES = $(shell ls -1 *.mk) CONST_Makefile
+
+.PHONY: help
+help:
+	@echo  "Usage: make <target>"
+	@echo
+	@echo  "Main targets:"
+	@echo
+	@echo  "- build			Build and configure the project"
+	@echo  "- checks		Perform a number of checks on the code"
+	@echo  "- serve			Run the development server (Pserve)"
+	@echo  "- serve			Run the development server (Pserve)"
+	@echo  "- clean			Remove generated files"
+	@echo "- cleanall		Remove all the build artefacts"
+	@echo
+	@echo  "Secondary targets:"
+	@echo
+	@echo  "- build-angular		Build the javascript and the css for ngeo"
+	@echo  "- flake8		Run Flake8 checker on the Python code"
+	@echo  "- lint-o		Check the JavaScript code with linters for ngeo"
+	@echo  "- template-clean	Clean the template file"
+	@echo  "- template-generate	Generate the template files"
+
+.PHONY: build
+build: $(BUILD_RULES)
+
+.PHONY: template-generate
+template-generate: $(MAKO_FILES:.mako=) .build/config.yaml
+
+
+.build/requirements.timestamp: $(EGGS_DEPENDENCIES)
+	$(PIP_CMD) $(PIP_INSTALL_ARGS) $(REQUIREMENTS)
+	touch $@
+
+.build/venv.timestamp-noclean:
+	mkdir -p $(dir $@)
+	virtualenv --setuptools --no-site-packages .build/venv
+	touch $@
+
+.build/config.yaml: $(INSTANCE_ID_MARKER) $(VENV_BIN)/c2c-template $(VARS_DEPENDS) $(MAKE_FILES)
+	$(C2C_TEMPLATE_CMD) --get-config .build/config.yaml $(CONFIG_VARS)
+
+.build/node_modules.timestamp: package.json
+	mkdir -p $(dir $@)
+
+# instance id marker
+INSTANCE_ID_MARKER ?= .build/instanceid-$(INSTANCE_ID).timestamp
+$(INSTANCE_ID_MARKER):
+	rm -f .build/instanceid-*.timestamp | true
+	touch $@
