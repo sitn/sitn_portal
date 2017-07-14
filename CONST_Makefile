@@ -34,6 +34,10 @@ ENVIRONMENT_VARS += INSTANCE_ID=${INSTANCE_ID} \
 C2C_TEMPLATE_CMD = $(ENVIRONMENT_VARS) $(VENV_BIN)/c2c-template --vars $(VARS_FILE)
 MAKE_FILES = $(shell ls -1 *.mk) CONST_Makefile
 
+# Angular
+ANGULAR_BASE_DIR ?= sitn_portal/sitn-portal-client
+ANGULAR_APPS = sitn-portal sitn-docs
+
 .PHONY: help
 help:
 	@echo  "Usage: make <target>"
@@ -45,11 +49,12 @@ help:
 	@echo  "- serve			Run the development server (Pserve)"
 	@echo  "- serve			Run the development server (Pserve)"
 	@echo  "- clean			Remove generated files"
-	@echo "- cleanall		Remove all the build artefacts"
+	@echo  "- cleanall		Remove all the build artefacts"
+	@echo  "- update-node-modules Update node modules (using --force)"
 	@echo
 	@echo  "Secondary targets:"
 	@echo
-	@echo  "- build-angular		Build the javascript and the css for ngeo"
+	@echo  "- build-frontend		Build the javascript and the css for Angular"
 	@echo  "- flake8		Run Flake8 checker on the Python code"
 	@echo  "- lint-o		Check the JavaScript code with linters for ngeo"
 	@echo  "- template-clean	Clean the template file"
@@ -82,3 +87,12 @@ INSTANCE_ID_MARKER ?= .build/instanceid-$(INSTANCE_ID).timestamp
 $(INSTANCE_ID_MARKER):
 	rm -f .build/instanceid-*.timestamp | true
 	touch $@
+
+.PHONY: update-node-modules
+update-node-modules:
+	cd $(ANGULAR_BASE_DIR) && npm install --force
+
+.PHONY: build-frontend
+build-frontend:
+	cd $(ANGULAR_BASE_DIR) $(foreach angular_app,$(ANGULAR_APPS), && ng build --app=$(angular_app))
+
