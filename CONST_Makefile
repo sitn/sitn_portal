@@ -108,9 +108,11 @@ $(ANGULAR_APP_PORTAL)-build:
 	cd $(ANGULAR_BASE_DIR) && ng build --app=$(ANGULAR_APP_PORTAL) --target=production --output-hashing none
 	mkdir -p $(STATIC_DIRECTORY)/$(ANGULAR_APP_PORTAL)
 	cp $(ANGULAR_BASE_DIR)/$(ANGULAR_APP_PORTAL)-build/*.js $(STATIC_DIRECTORY)/$(ANGULAR_APP_PORTAL)
+	cp $(ANGULAR_BASE_DIR)/$(ANGULAR_APP_PORTAL)-build/*.css $(STATIC_DIRECTORY)/$(ANGULAR_APP_PORTAL)
 
 .PHONY: $(ANGULAR_APP_DOCS)-build
 $(ANGULAR_APP_DOCS)-build:
 	cd $(ANGULAR_BASE_DIR) && ng build --app=$(ANGULAR_APP_DOCS) --target=production --output-hashing none
 	mkdir -p $(STATIC_DIRECTORY)/$(ANGULAR_APP_DOCS)
 	cp $(ANGULAR_BASE_DIR)/$(ANGULAR_APP_DOCS)-build/*.js $(STATIC_DIRECTORY)/$(ANGULAR_APP_DOCS)
+	cp $(ANGULAR_BASE_DIR)/$(ANGULAR_APP_DOCS)-build/*.css $(STATIC_DIRECTORY)/$(ANGULAR_APP_DOCS)
