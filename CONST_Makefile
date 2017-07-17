@@ -104,9 +104,9 @@ update-node-modules:
 	cd $(ANGULAR_BASE_DIR) && npm install --force
 
 .PHONY: build-frontend
-build-frontend: .build\ng-portal.timestamp .build\ng-docs.timestamp
+build-frontend: .build/ng-portal.timestamp .build/ng-docs.timestamp
 
-.build\ng-portal.timestamp: $(ANGULAR_PORTAL_FILES)
+.build/ng-portal.timestamp: $(ANGULAR_PORTAL_FILES) $(ANGULAR_BASE_DIR)/src/styles.css
 	mkdir -p $(dir $@)
 	cd $(ANGULAR_BASE_DIR) && ng build --app=$(ANGULAR_APP_PORTAL) --target=production --output-hashing none
 	mkdir -p $(STATIC_DIRECTORY)/$(ANGULAR_APP_PORTAL)
@@ -114,11 +114,12 @@ build-frontend: .build\ng-portal.timestamp .build\ng-docs.timestamp
 	cp $(ANGULAR_BASE_DIR)/$(ANGULAR_APP_PORTAL)-build/*.css $(STATIC_DIRECTORY)/$(ANGULAR_APP_PORTAL)
 	touch $@
 
-.build\ng-docs.timestamp: $(ANGULAR_DOCS_FILES)
+.build/ng-docs.timestamp: $(ANGULAR_DOCS_FILES) $(ANGULAR_BASE_DIR)/src/styles.css
 	mkdir -p $(dir $@)
 	cd $(ANGULAR_BASE_DIR) && ng build --app=$(ANGULAR_APP_DOCS) --target=production --output-hashing none
 	mkdir -p $(STATIC_DIRECTORY)/$(ANGULAR_APP_DOCS)
 	cp $(ANGULAR_BASE_DIR)/$(ANGULAR_APP_DOCS)-build/*.js $(STATIC_DIRECTORY)/$(ANGULAR_APP_DOCS)
 	cp $(ANGULAR_BASE_DIR)/$(ANGULAR_APP_DOCS)-build/*.css $(STATIC_DIRECTORY)/$(ANGULAR_APP_DOCS)
 	touch $@
+
 
