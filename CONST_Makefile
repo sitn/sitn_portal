@@ -41,8 +41,10 @@ ANGULAR_APP_DOCS = sitn-docs
 ANGULAR_APPS = $(ANGULAR_APP_PORTAL)-build $(ANGULAR_APP_DOCS)-build
 ANGULAR_PORTAL_BUILD_JS_FILES = $(shell find $(ANGULAR_BASE_DIR)/$(ANGULAR_APP_PORTAL)-build -type f -name '*.js')
 ANGULAR_PORTAL_BUILD_CSS_FILES = $(shell find $(ANGULAR_BASE_DIR)/$(ANGULAR_APP_PORTAL)-build -type f -name '*.css')
+ANGULAR_PORTAL_FILES = $(shell find $(ANGULAR_BASE_DIR)/src/app -type f -name '*.css' -o -name '*.html' -o -name '*.ts')
 ANGULAR_DOCS_BUILD_JS_FILES = $(shell find $(ANGULAR_BASE_DIR)/$(ANGULAR_APP_DOCS)-build -type f -name '*.js')
 ANGULAR_DOCS_BUILD_CSS_FILES = $(shell find $(ANGULAR_BASE_DIR)/$(ANGULAR_APP_DOCS)-build -type f -name '*.css')
+ANGULAR_DOCS_FILES = $(shell find $(ANGULAR_BASE_DIR)/src/app/docs -type f -name '*.css' -o -name '*.html' -o -name '*.ts')
 STATIC_DIRECTORY = $(PACKAGE)/static
 
 
@@ -87,7 +89,7 @@ template-generate: $(MAKO_FILES:.mako=) .build/config.yaml
 .build/config.yaml: $(INSTANCE_ID_MARKER) $(VENV_BIN)/c2c-template $(VARS_DEPENDS) $(MAKE_FILES)
 	$(C2C_TEMPLATE_CMD) --get-config .build/config.yaml $(CONFIG_VARS)
 
-.build/node_modules.timestamp: package.json
+.build/node_modules.timestamp: $(ANGULAR_BASE_DIR)/package.json
 	mkdir -p $(dir $@)
 
 # instance id marker
@@ -101,18 +103,21 @@ update-node-modules:
 	cd $(ANGULAR_BASE_DIR) && npm install --force
 
 .PHONY: build-frontend
-build-frontend: $(ANGULAR_APPS)
+build-frontend: .build\ng-portal.timestamp .build\ng-docs.timestamp
 
-.PHONY: $(ANGULAR_APP_PORTAL)-build
-$(ANGULAR_APP_PORTAL)-build:
+.build\ng-portal.timestamp: $(ANGULAR_PORTAL_FILES)
+	mkdir -p $(dir $@)
 	cd $(ANGULAR_BASE_DIR) && ng build --app=$(ANGULAR_APP_PORTAL) --target=production --output-hashing none
 	mkdir -p $(STATIC_DIRECTORY)/$(ANGULAR_APP_PORTAL)
 	cp $(ANGULAR_BASE_DIR)/$(ANGULAR_APP_PORTAL)-build/*.js $(STATIC_DIRECTORY)/$(ANGULAR_APP_PORTAL)
 	cp $(ANGULAR_BASE_DIR)/$(ANGULAR_APP_PORTAL)-build/*.css $(STATIC_DIRECTORY)/$(ANGULAR_APP_PORTAL)
+	touch $@
 
-.PHONY: $(ANGULAR_APP_DOCS)-build
-$(ANGULAR_APP_DOCS)-build:
+.build\ng-docs.timestamp: $(ANGULAR_DOCS_FILES)
+	mkdir -p $(dir $@)
 	cd $(ANGULAR_BASE_DIR) && ng build --app=$(ANGULAR_APP_DOCS) --target=production --output-hashing none
 	mkdir -p $(STATIC_DIRECTORY)/$(ANGULAR_APP_DOCS)
 	cp $(ANGULAR_BASE_DIR)/$(ANGULAR_APP_DOCS)-build/*.js $(STATIC_DIRECTORY)/$(ANGULAR_APP_DOCS)
 	cp $(ANGULAR_BASE_DIR)/$(ANGULAR_APP_DOCS)-build/*.css $(STATIC_DIRECTORY)/$(ANGULAR_APP_DOCS)
+	touch $@
+
