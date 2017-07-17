@@ -56,8 +56,6 @@ help:
 	@echo
 	@echo  "- build			Build and configure the project"
 	@echo  "- checks		Perform a number of checks on the code"
-	@echo  "- serve			Run the development server (Pserve)"
-	@echo  "- serve			Run the development server (Pserve)"
 	@echo  "- clean			Remove generated files"
 	@echo  "- cleanall		Remove all the build artefacts"
 	@echo  "- update-node-modules	Update node modules (using --force)"
