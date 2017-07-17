@@ -6,7 +6,9 @@
 
 # Angular stuff
 sitn_portal/sitn-portal-client/node_modules
+sitn_portal/static/sitn-portal
 sitn_portal/sitn-portal-client/sitn-portal-build
+sitn_portal/static/sitn-docs
 sitn_portal/sitn-portal-client/sitn-docs-build
 sitn_portal/sitn-portal-client/tmp
 sitn_portal/sitn-portal-client/out-tsc
@@ -14,6 +16,8 @@ sitn_portal/sitn-portal-client/.sass-cache
 sitn_portal/sitn-portal-client/npm-debug.log
 sitn_portal/sitn-portal-client/e2e/*.js
 sitn_portal/sitn-portal-client/e2e/*.map
+
+
 
 # Developer config files
 michael.mk

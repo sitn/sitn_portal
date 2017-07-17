@@ -12,7 +12,7 @@ APACHE_ENTRY_POINT ?= /$(INSTANCE_ID)/
 
 # Make rules
 
-BUILD_RULES ?= .build/requirements.timestamp template-generate
+BUILD_RULES ?= .build/requirements.timestamp template-generate build-frontend
 
 # REQUIREMENTS
 
@@ -34,9 +34,17 @@ ENVIRONMENT_VARS += INSTANCE_ID=${INSTANCE_ID} \
 C2C_TEMPLATE_CMD = $(ENVIRONMENT_VARS) $(VENV_BIN)/c2c-template --vars $(VARS_FILE)
 MAKE_FILES = $(shell ls -1 *.mk) CONST_Makefile
 
-# Angular
+# Angular apps
 ANGULAR_BASE_DIR ?= sitn_portal/sitn-portal-client
-ANGULAR_APPS = sitn-portal sitn-docs
+ANGULAR_APP_PORTAL = sitn-portal
+ANGULAR_APP_DOCS = sitn-docs
+ANGULAR_APPS = $(ANGULAR_APP_PORTAL)-build $(ANGULAR_APP_DOCS)-build
+ANGULAR_PORTAL_BUILD_JS_FILES = $(shell find $(ANGULAR_BASE_DIR)/$(ANGULAR_APP_PORTAL)-build -type f -name '*.js')
+ANGULAR_PORTAL_BUILD_CSS_FILES = $(shell find $(ANGULAR_BASE_DIR)/$(ANGULAR_APP_PORTAL)-build -type f -name '*.css')
+ANGULAR_DOCS_BUILD_JS_FILES = $(shell find $(ANGULAR_BASE_DIR)/$(ANGULAR_APP_DOCS)-build -type f -name '*.js')
+ANGULAR_DOCS_BUILD_CSS_FILES = $(shell find $(ANGULAR_BASE_DIR)/$(ANGULAR_APP_DOCS)-build -type f -name '*.css')
+STATIC_DIRECTORY = $(PACKAGE)/static
+
 
 .PHONY: help
 help:
@@ -59,6 +67,11 @@ help:
 	@echo  "- lint-o		Check the JavaScript code with linters for ngeo"
 	@echo  "- template-clean	Clean the template file"
 	@echo  "- template-generate	Generate the template files"
+	@echo  $(MAKO_FILES)
+
+.PHONY: stuff
+stuff:
+	@echo $(MAKE_FILES)
 
 .PHONY: build
 build: $(BUILD_RULES)
@@ -93,6 +106,16 @@ update-node-modules:
 	cd $(ANGULAR_BASE_DIR) && npm install --force
 
 .PHONY: build-frontend
-build-frontend:
-	cd $(ANGULAR_BASE_DIR) $(foreach angular_app,$(ANGULAR_APPS), && ng build --app=$(angular_app) --target=production)
+build-frontend: $(ANGULAR_APPS)
 
+.PHONY: $(ANGULAR_APP_PORTAL)-build
+$(ANGULAR_APP_PORTAL)-build:
+	cd $(ANGULAR_BASE_DIR) && ng build --app=$(ANGULAR_APP_PORTAL) --target=production --output-hashing none
+	mkdir -p $(STATIC_DIRECTORY)/$(ANGULAR_APP_PORTAL)
+	cp $(ANGULAR_BASE_DIR)/$(ANGULAR_APP_PORTAL)-build/*.js $(STATIC_DIRECTORY)/$(ANGULAR_APP_PORTAL)
+
+.PHONY: $(ANGULAR_APP_DOCS)-build
+$(ANGULAR_APP_DOCS)-build:
+	cd $(ANGULAR_BASE_DIR) && ng build --app=$(ANGULAR_APP_DOCS) --target=production --output-hashing none
+	mkdir -p $(STATIC_DIRECTORY)/$(ANGULAR_APP_DOCS)
+	cp $(ANGULAR_BASE_DIR)/$(ANGULAR_APP_DOCS)-build/*.js $(STATIC_DIRECTORY)/$(ANGULAR_APP_DOCS)
