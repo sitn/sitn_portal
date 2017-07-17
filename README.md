@@ -1,7 +1,21 @@
+# SITN portal
+
+This application regroups every non-spatial web app developped
+internally at SITN.
+
+## Building the application
+
+### Requirements
+
 virtualenv
 
 angular CLI
 
-cd sitn_portal\client
+## Developping
 
-ng new sitn-docs-app
+### Serving the server part
+
+### Serving the client part
+
+### Python & Flake8
+
