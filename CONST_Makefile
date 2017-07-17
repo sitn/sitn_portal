@@ -12,7 +12,7 @@ APACHE_ENTRY_POINT ?= /$(INSTANCE_ID)/
 
 # Make rules
 
-BUILD_RULES ?= .build/requirements.timestamp template-generate
+BUILD_RULES ?= .build/requirements.timestamp template-generate build-frontend
 
 # REQUIREMENTS
 
@@ -34,6 +34,20 @@ ENVIRONMENT_VARS += INSTANCE_ID=${INSTANCE_ID} \
 C2C_TEMPLATE_CMD = $(ENVIRONMENT_VARS) $(VENV_BIN)/c2c-template --vars $(VARS_FILE)
 MAKE_FILES = $(shell ls -1 *.mk) CONST_Makefile
 
+# Angular apps
+ANGULAR_BASE_DIR ?= sitn_portal/sitn-portal-client
+ANGULAR_APP_PORTAL = sitn-portal
+ANGULAR_APP_DOCS = sitn-docs
+ANGULAR_APPS = $(ANGULAR_APP_PORTAL)-build $(ANGULAR_APP_DOCS)-build
+ANGULAR_PORTAL_BUILD_JS_FILES = $(shell find $(ANGULAR_BASE_DIR)/$(ANGULAR_APP_PORTAL)-build -type f -name '*.js')
+ANGULAR_PORTAL_BUILD_CSS_FILES = $(shell find $(ANGULAR_BASE_DIR)/$(ANGULAR_APP_PORTAL)-build -type f -name '*.css')
+ANGULAR_PORTAL_FILES = $(shell find $(ANGULAR_BASE_DIR)/src/app -type f -name '*.css' -o -name '*.html' -o -name '*.ts')
+ANGULAR_DOCS_BUILD_JS_FILES = $(shell find $(ANGULAR_BASE_DIR)/$(ANGULAR_APP_DOCS)-build -type f -name '*.js')
+ANGULAR_DOCS_BUILD_CSS_FILES = $(shell find $(ANGULAR_BASE_DIR)/$(ANGULAR_APP_DOCS)-build -type f -name '*.css')
+ANGULAR_DOCS_FILES = $(shell find $(ANGULAR_BASE_DIR)/src/app/docs -type f -name '*.css' -o -name '*.html' -o -name '*.ts')
+STATIC_DIRECTORY = $(PACKAGE)/static
+
+
 .PHONY: help
 help:
 	@echo  "Usage: make <target>"
@@ -45,13 +59,13 @@ help:
 	@echo  "- serve			Run the development server (Pserve)"
 	@echo  "- serve			Run the development server (Pserve)"
 	@echo  "- clean			Remove generated files"
-	@echo "- cleanall		Remove all the build artefacts"
+	@echo  "- cleanall		Remove all the build artefacts"
+	@echo  "- update-node-modules	Update node modules (using --force)"
 	@echo
 	@echo  "Secondary targets:"
 	@echo
-	@echo  "- build-angular		Build the javascript and the css for ngeo"
+	@echo  "- build-frontend	Build the javascript and the css for Angular"
 	@echo  "- flake8		Run Flake8 checker on the Python code"
-	@echo  "- lint-o		Check the JavaScript code with linters for ngeo"
 	@echo  "- template-clean	Clean the template file"
 	@echo  "- template-generate	Generate the template files"
 
@@ -60,7 +74,6 @@ build: $(BUILD_RULES)
 
 .PHONY: template-generate
 template-generate: $(MAKO_FILES:.mako=) .build/config.yaml
-
 
 .build/requirements.timestamp: $(EGGS_DEPENDENCIES)
 	$(PIP_CMD) $(PIP_INSTALL_ARGS) $(REQUIREMENTS)
@@ -72,13 +85,41 @@ template-generate: $(MAKO_FILES:.mako=) .build/config.yaml
 	touch $@
 
 .build/config.yaml: $(INSTANCE_ID_MARKER) $(VENV_BIN)/c2c-template $(VARS_DEPENDS) $(MAKE_FILES)
-	$(C2C_TEMPLATE_CMD) --get-config .build/config.yaml $(CONFIG_VARS)
-
-.build/node_modules.timestamp: package.json
 	mkdir -p $(dir $@)
+	$(C2C_TEMPLATE_CMD) --get-config .build/config.yaml $(CONFIG_VARS)
+	touch $@
+
+.build/node_modules.timestamp: $(ANGULAR_BASE_DIR)/package.json
+	mkdir -p $(dir $@)
+	touch $@
 
 # instance id marker
 INSTANCE_ID_MARKER ?= .build/instanceid-$(INSTANCE_ID).timestamp
 $(INSTANCE_ID_MARKER):
 	rm -f .build/instanceid-*.timestamp | true
 	touch $@
+
+.PHONY: update-node-modules
+update-node-modules:
+	cd $(ANGULAR_BASE_DIR) && npm install --force
+
+.PHONY: build-frontend
+build-frontend: .build/ng-portal.timestamp .build/ng-docs.timestamp
+
+.build/ng-portal.timestamp: $(ANGULAR_PORTAL_FILES) $(ANGULAR_BASE_DIR)/src/styles.css
+	mkdir -p $(dir $@)
+	cd $(ANGULAR_BASE_DIR) && ng build --app=$(ANGULAR_APP_PORTAL) --target=production --output-hashing none
+	mkdir -p $(STATIC_DIRECTORY)/$(ANGULAR_APP_PORTAL)
+	cp $(ANGULAR_BASE_DIR)/$(ANGULAR_APP_PORTAL)-build/*.js $(STATIC_DIRECTORY)/$(ANGULAR_APP_PORTAL)
+	cp $(ANGULAR_BASE_DIR)/$(ANGULAR_APP_PORTAL)-build/*.css $(STATIC_DIRECTORY)/$(ANGULAR_APP_PORTAL)
+	touch $@
+
+.build/ng-docs.timestamp: $(ANGULAR_DOCS_FILES) $(ANGULAR_BASE_DIR)/src/styles.css
+	mkdir -p $(dir $@)
+	cd $(ANGULAR_BASE_DIR) && ng build --app=$(ANGULAR_APP_DOCS) --target=production --output-hashing none
+	mkdir -p $(STATIC_DIRECTORY)/$(ANGULAR_APP_DOCS)
+	cp $(ANGULAR_BASE_DIR)/$(ANGULAR_APP_DOCS)-build/*.js $(STATIC_DIRECTORY)/$(ANGULAR_APP_DOCS)
+	cp $(ANGULAR_BASE_DIR)/$(ANGULAR_APP_DOCS)-build/*.css $(STATIC_DIRECTORY)/$(ANGULAR_APP_DOCS)
+	touch $@
+
+
