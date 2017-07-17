@@ -76,7 +76,6 @@ build: $(BUILD_RULES)
 .PHONY: template-generate
 template-generate: $(MAKO_FILES:.mako=) .build/config.yaml
 
-
 .build/requirements.timestamp: $(EGGS_DEPENDENCIES)
 	$(PIP_CMD) $(PIP_INSTALL_ARGS) $(REQUIREMENTS)
 	touch $@
@@ -87,10 +86,13 @@ template-generate: $(MAKO_FILES:.mako=) .build/config.yaml
 	touch $@
 
 .build/config.yaml: $(INSTANCE_ID_MARKER) $(VENV_BIN)/c2c-template $(VARS_DEPENDS) $(MAKE_FILES)
+	mkdir -p $(dir $@)
 	$(C2C_TEMPLATE_CMD) --get-config .build/config.yaml $(CONFIG_VARS)
+	touch $@
 
 .build/node_modules.timestamp: $(ANGULAR_BASE_DIR)/package.json
 	mkdir -p $(dir $@)
+	touch $@
 
 # instance id marker
 INSTANCE_ID_MARKER ?= .build/instanceid-$(INSTANCE_ID).timestamp
