@@ -67,11 +67,6 @@ help:
 	@echo  "- lint-o		Check the JavaScript code with linters for ngeo"
 	@echo  "- template-clean	Clean the template file"
 	@echo  "- template-generate	Generate the template files"
-	@echo  $(MAKO_FILES)
-
-.PHONY: stuff
-stuff:
-	@echo $(MAKE_FILES)
 
 .PHONY: build
 build: $(BUILD_RULES)
