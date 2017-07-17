@@ -60,13 +60,12 @@ help:
 	@echo  "- serve			Run the development server (Pserve)"
 	@echo  "- clean			Remove generated files"
 	@echo  "- cleanall		Remove all the build artefacts"
-	@echo  "- update-node-modules Update node modules (using --force)"
+	@echo  "- update-node-modules	Update node modules (using --force)"
 	@echo
 	@echo  "Secondary targets:"
 	@echo
-	@echo  "- build-frontend		Build the javascript and the css for Angular"
+	@echo  "- build-frontend	Build the javascript and the css for Angular"
 	@echo  "- flake8		Run Flake8 checker on the Python code"
-	@echo  "- lint-o		Check the JavaScript code with linters for ngeo"
 	@echo  "- template-clean	Clean the template file"
 	@echo  "- template-generate	Generate the template files"
 
