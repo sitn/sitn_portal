@@ -63,5 +63,40 @@ This will start a local server on some specific port (usually 6543)
 
 ### Serving the client part
 
+Each Angular app must be run independently when developping. To do so, go
+to the Angular app folder and:
+
+    cd sitn_portal\sitn-portal-client
+    ng serve --app app_name
+
+`app_name` is the name of an Angular application as described in the CLI
+configuration file which is located in the `sitn-portal-client` folder.
+
+### Developping the client part using the server part
+
+You should define full development URLs in the Angular applications.
+
+Thus, if you want ton use a webservice for which you have defined a
+`my_webservice` route, then you should use
+`http://localhost:6543/my_webservice` as URL in Angular. Do not forget
+to declare them as globals in Angular.
+
+### Building
+
+The application is autmatically built by make. Note that the HMTL files are
+duplicated in order for the Mako templating to be used.
+
+While developping, the HTML files inside the `sitn-portal-client\src` while
+be used.
+
+In production, the HTML files inside the template folder `sitn_portal\template`
+will be used, thus changes made in the Angular HTML files must be MANUALLY
+reported to the Mako HTML templates.
+
+### Creating a new Angular application
+
+TODO
+
 ### Python & Flake8
 
+TODO
