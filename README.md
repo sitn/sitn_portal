@@ -161,4 +161,8 @@ Now you should be good to go...
 
 ### Python & Flake8
 
-TODO
+It is possible to check the Python code with Flake.
+
+To do so, one might run the following exe, here typically for the admin.py file
+
+    .build\venv\Scripts\flake8.exe sitn_portal\views\default.py
