@@ -4,6 +4,7 @@ from setuptools import setup, find_packages
 
 requires = [
     'c2c.template',
+    'flake8',
     'plaster_pastedeploy',
     'psycopg2',
     'pyramid',

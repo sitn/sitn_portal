@@ -1,4 +1,3 @@
-from pyramid.response import Response
 from pyramid.view import view_config
 
 
@@ -18,7 +17,7 @@ def docs_fake(request):
         'docs': [{
             'title': 'one',
             'project': 'sitn_portal'
-        },{
+        }, {
             'title': 'two',
             'project': 'sitn_portal2'
         }]
