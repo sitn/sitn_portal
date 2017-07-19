@@ -37,7 +37,7 @@ has to be installed globally:
 At last, almost all requirements have to be in the path environment variable
 (NodeJS and npm should already be there)
 
-We recommand to add the following elements to the path (in the same order
+We recommend to add the following elements to the path (in the same order
 and at the beginning of the variable !)
 
 1. Path to git (something like C:\Program Files (x86)\Git\cmd)
@@ -83,10 +83,10 @@ to declare them as globals in Angular.
 
 ### Building
 
-The application is autmatically built by make. Note that the HMTL files are
+The application is automatically built by make. Note that the HMTL files are
 duplicated in order for the Mako templating to be used.
 
-While developping, the HTML files inside the `sitn-portal-client\src` while
+While developing, the HTML files inside the `sitn-portal-client\src` while
 be used.
 
 In production, the HTML files inside the template folder `sitn_portal\template`
