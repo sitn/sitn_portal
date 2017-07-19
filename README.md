@@ -90,12 +90,74 @@ While developping, the HTML files inside the `sitn-portal-client\src` while
 be used.
 
 In production, the HTML files inside the template folder `sitn_portal\template`
-will be used, thus changes made in the Angular HTML files must be MANUALLY
+will be used, thus changes made in the Angular HTML files must be **MANUALLY**
 reported to the Mako HTML templates.
 
 ### Creating a new Angular application
 
-TODO
+Basically, to create a new Angular application, one will have to copy-paste
+a bunch of stuff.
+
+#### CONST_Makefile
+
+In `CONST_Makefile` search for the Angular apps section and copy-paste
+the lines defining with the following variables:
+
+* `ANGULAR_APP_PORTAL`
+* `ANGULAR_PORTAL_BUILD_JS_FILES`
+* `ANGULAR_PORTAL_BUILD_CSS_FILES`
+* `ANGULAR_PORTAL_FILES`
+
+Replace `PORTAL` in each name of these variables with the name of your new
+app (like `MYAPP`) and replace it also inside the variable attribution.
+
+Search for `ANGULAR_APPS` and add `$(ANGULAR_APP_MYAPP)-build` at the
+end of the line (substituing `MYAPP`).
+
+Next, search for the `.build/ng-portal.timestamp: $(ANGULAR_PORTAL_FILES) $(ANGULAR_BASE_DIR)/src/styles.css`
+make block and duplicate it. Once again subsitute `PORTAL` with whatever you
+called `MYAPP`
+
+Finally, add this new block to the `.PHONY: build-frontend` make block.
+
+#### Python routes & templates
+
+We need to create a new route and new template for each Angular application.
+
+First:
+* Create a new `myapp.py`file inside `sitn_portal\views` by copying-pasting
+the content of `CONST_Templates\sitn_portal\views`
+
+* Create a new `myapp.html` template inside `sitn_portal\templates` by copying-pasting
+the content of `CONST_Templates\sitn_portal\templates`
+
+* In the sitn_portal `routes.py` files, add a section like:
+
+```python
+# myapp.py
+config.add_route('myapp_fake', 'myapp/fake')
+config.add_route('myapp', '/myapp')
+
+```
+
+Do not forget to **REPLACE** all `myapp` by whatever you called your application.
+
+#### Angular & Angular CLI
+
+Finally you will need to create a new Angular application. The easiest way to do so is to
+copy-paste the following file and folder into the same given locations in sitn_portal
+project:
+* `CONST_templates\sitn_portal\sitn-portal-client\src\myapp.html`
+* `CONST_templates\sitn_portal\sitn-portal-client\src\app\myapp`
+
+Again, do no forget to replace all `myapp` by whatever you called your application.
+
+Finally, we have to tell Angular CLI that there is a new application available:
+* Open `sitn_portal\sitn-portal-client\.angular-cli.json`
+* Duplicate the section named `sitn-portal`inside the `apps` section
+* Inside of the duplicated section, replace all `portal` terms with `myapp`
+
+Now you should be good to go...
 
 ### Python & Flake8
 
