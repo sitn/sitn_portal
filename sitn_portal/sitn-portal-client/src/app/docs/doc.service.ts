@@ -11,8 +11,7 @@ declare var sitnDocsConst:object;
 export class DocService {
 
   constructor(
-    private http: Http,
-    //private docGlobals: DocGlobals 
+    private http: Http
   ) { }
 
   private docs_fake_Url = sitnDocsConst['docs_fake_Url'];
