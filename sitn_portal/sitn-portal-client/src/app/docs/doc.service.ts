@@ -5,17 +5,17 @@ import 'rxjs/add/operator/toPromise';
 
 import { Doc } from './doc';
 
-import {DocGlobals} from "./globals"
+declare var sitnDocsConst:object;
 
 @Injectable()
 export class DocService {
 
   constructor(
     private http: Http,
-    private docGlobals: DocGlobals 
+    //private docGlobals: DocGlobals 
   ) { }
 
-  private docs_fake_Url = this.docGlobals.docFakeUrl;
+  private docs_fake_Url = sitnDocsConst['docs_fake_Url'];
 
   getDocs(): Promise<Doc[]> {
     return this.http.get(this.docs_fake_Url)

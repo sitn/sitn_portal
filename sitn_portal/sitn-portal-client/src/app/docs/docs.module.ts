@@ -4,7 +4,6 @@ import { HttpModule } from '@angular/http';
 
 import { DocsComponent } from './docs.component';
 import { DocService } from './doc.service';
-import { DocGlobals } from './globals';
 
 @NgModule({
   declarations: [
@@ -17,9 +16,8 @@ import { DocGlobals } from './globals';
   ],
 
   providers: [
-    DocService,
-    DocGlobals
-    ],
+    DocService
+  ],
 
   bootstrap: [DocsComponent]
 
