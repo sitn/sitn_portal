@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from pyramid.config import Configurator
 
 from sqlalchemy import engine_from_config
@@ -9,6 +10,7 @@ import pyramid_tm
 from sitn_portal.lib import dbreflection
 
 import yaml
+
 
 def main(global_config, **settings):
     """ This function returns a Pyramid WSGI application.
@@ -25,12 +27,12 @@ def main(global_config, **settings):
 
     engine = engine_from_config(settings, 'sqlalchemy.')
     sqlahelper.add_engine(engine)
-    
+
     config.include(pyramid_tm.includeme)
 
     dbreflection.init(engine)
 
-    config.include('.routes')   
+    config.include('.routes')
 
     config.scan()
 
