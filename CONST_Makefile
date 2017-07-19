@@ -36,15 +36,19 @@ MAKE_FILES = $(shell ls -1 *.mk) CONST_Makefile
 
 # Angular apps
 ANGULAR_BASE_DIR ?= sitn_portal/sitn-portal-client
+
 ANGULAR_APP_PORTAL = sitn-portal
-ANGULAR_APP_DOCS = sitn-docs
-ANGULAR_APPS = $(ANGULAR_APP_PORTAL)-build $(ANGULAR_APP_DOCS)-build
 ANGULAR_PORTAL_BUILD_JS_FILES = $(shell find $(ANGULAR_BASE_DIR)/$(ANGULAR_APP_PORTAL)-build -type f -name '*.js')
 ANGULAR_PORTAL_BUILD_CSS_FILES = $(shell find $(ANGULAR_BASE_DIR)/$(ANGULAR_APP_PORTAL)-build -type f -name '*.css')
 ANGULAR_PORTAL_FILES = $(shell find $(ANGULAR_BASE_DIR)/src/app -type f -name '*.css' -o -name '*.html' -o -name '*.ts')
+
+ANGULAR_APP_DOCS = sitn-docs
 ANGULAR_DOCS_BUILD_JS_FILES = $(shell find $(ANGULAR_BASE_DIR)/$(ANGULAR_APP_DOCS)-build -type f -name '*.js')
 ANGULAR_DOCS_BUILD_CSS_FILES = $(shell find $(ANGULAR_BASE_DIR)/$(ANGULAR_APP_DOCS)-build -type f -name '*.css')
 ANGULAR_DOCS_FILES = $(shell find $(ANGULAR_BASE_DIR)/src/app/docs -type f -name '*.css' -o -name '*.html' -o -name '*.ts')
+
+ANGULAR_APPS = $(ANGULAR_APP_PORTAL)-build $(ANGULAR_APP_DOCS)-build
+
 STATIC_DIRECTORY = $(PACKAGE)/static
 
 
