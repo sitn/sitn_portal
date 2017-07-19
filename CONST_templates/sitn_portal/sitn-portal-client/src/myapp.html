@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>MyApp</title>
+  <base href="/">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="${request.static_url('sitn_portal:static/favicon.ico')}">
+    <script>
+        var sitnMyappConst = {}
+        sitnMyappConst.myapp_fake_Url = 'http://localhost:6543/myapp/fake';
+  </script>
+<link href="${request.static_url('sitn_portal:static/sitn-myapp/styles.bundle.css')}" rel="stylesheet"/></head>
+<body>
+  <myapp-root></myapp-root>
+<script type="text/javascript" src="${request.static_url('sitn_portal:static/sitn-myapp/inline.bundle.js')}"></script>
+<script type="text/javascript" src="${request.static_url('sitn_portal:static/sitn-myapp/polyfills.bundle.js')}"></script>
+<script type="text/javascript" src="${request.static_url('sitn_portal:static/sitn-myapp/vendor.bundle.js')}"></script>
+<script type="text/javascript" src="${request.static_url('sitn_portal:static/sitn-myapp/main.bundle.js')}"></script>
+</body>
+</html>
