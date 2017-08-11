@@ -1,0 +1,154 @@
+<div class="container">
+    <h1>Saisie de document</h1>
+    <div [hidden]="submitted">
+    <form (ngSubmit)="onSubmit()" #documentForm="ngForm">
+      {{diagnostic}}
+      <div class="form-group">
+        <label for="docid">Identifiant du document</label>
+        <input type="text" class="form-control" id="docid" required [(ngModel)]="model.docid" name="docid">
+      </div>
+
+      <div class="form-group">
+        <label for="doctype">Type de document</label>
+        <input type="text" class="form-control" id="doctype" required [(ngModel)]="model.doctype" name="doctype" #doctype="ngModel">
+        <div [hidden]="doctype.valid || doctype.pristine" class="alert alert-danger">
+          Ce champs est obligatoire.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="lang">Langue du document</label>
+        <select class="form-control" id="lang"
+            required
+            [(ngModel)]="model.lang" name="lang">
+          <option *ngFor="let lang of languages" [value]="lang">{{lang}}</option>
+        </select>
+       </div>
+
+      <div class="form-group">
+        <label for="state">Canton</label>
+        <select class="form-control" id="state" required>
+          <option *ngFor="let state of states" [value]="state">{{state}}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="officialtitle">Titre officiel</label>
+        <input type="text" class="form-control" id="officialtitle" required  [(ngModel)]="model.officialtitle" name="officialtitle"  #officialtitle="ngModel">
+        <div [hidden]="officialtitle.valid || officialtitle.pristine" class="alert alert-danger">
+          Ce champs est obligatoire.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="title">Titre du document</label>
+        <input type="text" class="form-control" id="title">
+      </div>
+
+      <div class="form-group">
+        <label for="entrydate">Date de saisie</label>
+        <input type="text" class="form-control" id="entrydate" required  [(ngModel)]="model.entrydate" name="entrydate">
+      </div>
+
+      <div class="form-group">
+        <label for="publicationdate">Date de publication</label>
+        <input type="text" class="form-control" id="publicationdate" required>
+      </div>
+
+      <div class="form-group">
+        <label for="legalstate">Statut légal</label>
+        <input type="text" class="form-control" id="legalstate" required>
+      </div>
+
+      <div class="form-group">
+        <label for="operator">Operateur de saisie</label>
+        <input type="text" class="form-control" id="operator" required>
+      </div>
+
+      <div class="form-group">
+        <label for="municipalityname">Commune</label>
+        <input type="text" class="form-control" id="municipalityname">
+      </div>
+
+      <div class="form-group">
+        <label for="municipalitynb">No. de commune cantonal</label>
+        <input type="text" class="form-control" id="municipalitynb">
+      </div>
+
+      <div class="form-group">
+        <label for="chmunicipalitynb">No. OFS</label>
+        <input type="text" class="form-control" id="chmunicipalitynb">
+      </div>
+
+      <div class="form-group">
+        <label for="cadastrenb">No. de cadastre</label>
+        <input type="text" class="form-control" id="cadastrenb">
+      </div>
+
+      <div class="form-group">
+        <label for="abbreviation">Abréviation du document</label>
+        <input type="text" class="form-control" id="abbreviation">
+      </div>
+
+      <div class="form-group">
+        <label for="officialnb">No. officiel du document</label>
+        <input type="text" class="form-control" id="officialnb">
+      </div>
+
+      <div class="form-group">
+        <label for="remoteurl">Emplacement en ligne (URL)</label>
+        <input type="text" class="form-control" id="remoteurl">
+      </div>
+
+      <div class="form-group">
+        <label for="sanctiondate">Date de sanction</label>
+        <input type="text" class="form-control" id="sanctiondate">
+      </div>
+
+      <div class="form-group">
+        <label for="localurl">Emplacement local</label>
+        <input type="text" class="form-control" id="localurl">
+      </div>
+
+      <div class="form-group">
+        <label for="abolishingdate">Date d'abrogation</label>
+        <input type="text" class="form-control" id="abolishingdate">
+      </div>
+
+      <div class="form-group">
+        <label for="revisiondate">Date de révision</label>
+        <input type="text" class="form-control" id="revisiondate">
+      </div>
+
+      <div class="form-group">
+        <label for="effectivedate">Date d'entrée en vigueur</label>
+        <input type="text" class="form-control" id="effectivedate">
+      </div>
+
+      <div class="form-group">
+        <label for="approbationdate">Date d'aprobation</label>
+        <input type="text" class="form-control" id="approbationdate">
+      </div>
+
+      <button type="submit" class="btn btn-success" [disabled]="!documentForm.form.valid">Submit</button>
+
+    </form>
+  </div>
+  <div [hidden]="!submitted">
+  <h2>Les informations suivantes ont été transmises:</h2>
+  <div class="row">
+    <div class="col-xs-3">docid</div>
+    <div class="col-xs-9  pull-left">{{ model.docid }}</div>
+  </div>
+  <div class="row">
+    <div class="col-xs-3">Titre officiel</div>
+    <div class="col-xs-9 pull-left">{{ model.officialtitle }}</div>
+  </div>
+  <div class="row">
+    <div class="col-xs-3">Statut juridique</div>
+    <div class="col-xs-9 pull-left">{{ model.legalstate }}</div>
+  </div>
+  <br>
+  <button class="btn btn-primary" (click)="submitted=false">Edit</button>
+</div>
+</div>

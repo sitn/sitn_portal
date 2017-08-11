@@ -5,5 +5,5 @@ def includeme(config):
     config.add_route('home', '/')
 
     # docs.py
-    config.add_route('docs_fake', 'docs/fake')
+    config.add_route('documents', 'documents')
     config.add_route('docs', '/docs')

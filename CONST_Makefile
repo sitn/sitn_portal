@@ -93,6 +93,7 @@ template-generate: $(MAKO_FILES:.mako=) .build/config.yaml
 
 .build/node_modules.timestamp: $(ANGULAR_BASE_DIR)/package.json
 	mkdir -p $(dir $@)
+	cd $(ANGULAR_BASE_DIR) && npm install --force
 	touch $@
 
 # instance id marker
