@@ -1,4 +1,5 @@
 VENV_BIN ?= .build/venv/Scripts
+PYTHON_VERSION = $(shell $(VENV_BIN)/python -c "import sys; print('%i.%i' % (sys.version_info.major, sys.version_info.minor))" 2> /dev/null)
 INSTANCE_ID ?= sitn_portal
 
 DEVELOPMENT ?= FALSE
@@ -126,18 +127,12 @@ build-frontend: .build/ng-portal.timestamp .build/ng-docs.timestamp
 	touch $@
 
 .PHONY: checks
-checks: git-attributes lint coverage-html
+checks: git-attributes lint
 
 .PHONY: lint
-lint: $(PYTHON_VENV)
-	$(VENV_BIN)/flake8$(PYTHON_BIN_POSTFIX)
+lint: $(VENV_BIN)/flake8
+	$(VENV_BIN)/flake8 $(PACKAGE)
 
 .PHONY: git-attributes
 git-attributes:
 	git --no-pager diff --check `git log --oneline | tail -1 | cut --fields=1 --delimiter=' '`
-
-.PHONY: coverage-html
-coverage-html: coverage_report/index.html
-
-coverage_report/index.html: $(PYTHON_VENV) .coverage
-	$(VENV_BIN)/coverage$(PYTHON_BIN_POSTFIX) html
