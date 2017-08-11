@@ -125,4 +125,19 @@ build-frontend: .build/ng-portal.timestamp .build/ng-docs.timestamp
 	cp $(ANGULAR_BASE_DIR)/$(ANGULAR_APP_DOCS)-build/*.css $(STATIC_DIRECTORY)/$(ANGULAR_APP_DOCS)
 	touch $@
 
+.PHONY: checks
+checks: git-attributes lint coverage-html
 
+.PHONY: lint
+lint: $(PYTHON_VENV)
+	$(VENV_BIN)/flake8$(PYTHON_BIN_POSTFIX)
+
+.PHONY: git-attributes
+git-attributes:
+	git --no-pager diff --check `git log --oneline | tail -1 | cut --fields=1 --delimiter=' '`
+
+.PHONY: coverage-html
+coverage-html: coverage_report/index.html
+
+coverage_report/index.html: $(PYTHON_VENV) .coverage
+	$(VENV_BIN)/coverage$(PYTHON_BIN_POSTFIX) html

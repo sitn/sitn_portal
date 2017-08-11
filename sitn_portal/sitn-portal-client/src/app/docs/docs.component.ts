@@ -12,7 +12,6 @@ import { DocumentService } from './document.service';
 export class DocsComponent implements OnInit {
 
   documents: Document[];
-  title = 'docs';
 
   constructor(
     private documentService: DocumentService

@@ -13,7 +13,7 @@ export class DocumentSearchService {
 
   search(term: string): Observable<Document[]> {
     return this.http
-               .get(`api/documents/?officialtitle=${term}`)
-               .map(response => response.json().data as Document[]);
+               .get(`documents/officialtitle=${term}`)
+               .map(response => response.json().documents as Document[]);
   }
 }

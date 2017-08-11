@@ -9,7 +9,7 @@ declare var sitnDocsConst:object;
 
 @Injectable()
 export class DocumentService {
-  getDocument(docid: number): Promise<Document> {
+  getDocument(docid: string): Promise<Document> {
     const url = `${this.documentsUrl}/${docid}`;
     return this.http.get(url)
       .toPromise()

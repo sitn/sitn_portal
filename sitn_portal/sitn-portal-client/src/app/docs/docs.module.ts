@@ -26,7 +26,7 @@ import { DocumentService } from './document.service';
     DocumentDetailComponent,
     DocumentSearchComponent
   ],
-  providers: [ DocumentService ],
+  providers: [DocumentService],
   bootstrap: [DocsComponent]
 
 })

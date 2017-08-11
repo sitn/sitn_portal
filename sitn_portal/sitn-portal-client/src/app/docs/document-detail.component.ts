@@ -22,7 +22,7 @@ export class DocumentDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.paramMap
-      .switchMap((params: ParamMap) => this.documentService.getDocument(+params.get('docid')))
+      .switchMap((params: ParamMap) => this.documentService.getDocument(params.get('docid')))
       .subscribe(document => this.document = document);
   }
 
