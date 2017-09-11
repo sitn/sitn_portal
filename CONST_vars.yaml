@@ -10,7 +10,7 @@ vars:
     # database password
     dbpassword: overwriteme
     # database host
-    dbhost: localhost
+    dbhost: overwriteme
     # database port
     dbport: 5432
     # database name
