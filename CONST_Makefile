@@ -13,7 +13,7 @@ APACHE_ENTRY_POINT ?= /$(INSTANCE_ID)/
 
 # Make rules
 
-BUILD_RULES ?= .build/requirements.timestamp template-generate build-frontend
+BUILD_RULES ?= .build/requirements.timestamp template-generate .build/node_modules.timestamp build-frontend
 
 # REQUIREMENTS
 
@@ -72,6 +72,25 @@ help:
 	@echo  "- template-clean	Clean the template file"
 	@echo  "- template-generate	Generate the template files"
 
+.PHONY: template-clean
+template-clean:
+	rm -f $(TEMPLATE_FILES:.in=)
+	rm -f $(MAKO_FILES:.mako=)
+	rm -f .build/config.yaml
+
+.PHONY: clean
+clean: template-clean
+	rm -f .build/*.timestamp
+	rm -rf $(ANGULAR_BASE_DIR)/$(ANGULAR_APP_PORTAL)-build
+	rm -rf $(ANGULAR_BASE_DIR)/$(ANGULAR_APP_DOCS)-build
+	rm -rf $(PACKAGE)/static/$(ANGULAR_APP_PORTAL)
+	rm -rf $(PACKAGE)/static/$(ANGULAR_APP_DOCS)
+
+.PHONY: cleanall
+cleanall: clean
+	rm -rf .build
+	rm -rf $(ANGULAR_BASE_DIR)/node_modules
+
 .PHONY: build
 build: $(BUILD_RULES)
 
@@ -91,12 +110,7 @@ template-generate: $(MAKO_FILES:.mako=) .build/config.yaml
 	mkdir -p $(dir $@)
 	$(C2C_TEMPLATE_CMD) --get-config .build/config.yaml $(CONFIG_VARS)
 	touch $@
-
-.build/node_modules.timestamp: $(ANGULAR_BASE_DIR)/package.json
-	mkdir -p $(dir $@)
-	cd $(ANGULAR_BASE_DIR) && npm install --force
-	touch $@
-
+  
 # instance id marker
 INSTANCE_ID_MARKER ?= .build/instanceid-$(INSTANCE_ID).timestamp
 $(INSTANCE_ID_MARKER):
@@ -126,6 +140,14 @@ build-frontend: .build/ng-portal.timestamp .build/ng-docs.timestamp
 	cp $(ANGULAR_BASE_DIR)/$(ANGULAR_APP_DOCS)-build/*.css $(STATIC_DIRECTORY)/$(ANGULAR_APP_DOCS)
 	touch $@
 
+$(ANGULAR_BASE_DIR)/package.json:
+	touch $@
+
+.build/node_modules.timestamp: $(ANGULAR_BASE_DIR)/package.json
+	mkdir -p $(dir $@)
+	cd $(ANGULAR_BASE_DIR) && npm install || sleep 20 || npm install || sleep 90 || npm install
+	touch $@
+ 
 .PHONY: checks
 checks: git-attributes lint
 
