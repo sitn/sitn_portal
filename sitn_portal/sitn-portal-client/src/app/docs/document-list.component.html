@@ -1,0 +1,33 @@
+<h2>Liste des documents</h2>
+
+<table class="documents">
+  <tr>
+    <th>Docid</th>
+    <th>Titre officiel</th>
+    <th>Type de document</th>
+    <th>Langue</th>
+    <th>Canton</th>
+    <th>Statut juridique</th>
+    <th>Date de sanction</th>
+    <th>Date de saisie</th>
+  </tr>
+  <tr *ngFor="let document of documents" (click)="onSelect(document)"
+      [class.selected]="document === selectedDocument">
+    <td>{{document.docid}}</td>
+    <td>{{document.officialtitle}}</td>
+    <td>{{document.doctype}}</td>
+    <td>{{document.lang}}</td>
+    <td>{{document.state}}</td>
+    <td>{{document.legalstate}}</td>
+    <td>{{document.sanctiondate}}</td>
+    <td>{{document.entrydate}}</td>
+  </tr>
+</table>
+<div *ngIf="selectedDocument">
+  <h2>
+    {{selectedDocument.officialtitle}}
+  </h2>
+  <button (click)="gotoDetail()">View Details</button>
+</div>
+
+<document-search></document-search>

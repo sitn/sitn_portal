@@ -22,3 +22,5 @@ sitn_portal/sitn-portal-client/e2e/*.map
 # Developer config files
 michael.mk
 vars_michael.yaml
+francois.mk
+vars_francois.yaml

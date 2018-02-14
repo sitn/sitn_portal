@@ -1,4 +1,5 @@
 VENV_BIN ?= .build/venv/Scripts
+PYTHON_VERSION = $(shell $(VENV_BIN)/python -c "import sys; print('%i.%i' % (sys.version_info.major, sys.version_info.minor))" 2> /dev/null)
 INSTANCE_ID ?= sitn_portal
 
 DEVELOPMENT ?= FALSE
@@ -109,7 +110,7 @@ template-generate: $(MAKO_FILES:.mako=) .build/config.yaml
 	mkdir -p $(dir $@)
 	$(C2C_TEMPLATE_CMD) --get-config .build/config.yaml $(CONFIG_VARS)
 	touch $@
-
+  
 # instance id marker
 INSTANCE_ID_MARKER ?= .build/instanceid-$(INSTANCE_ID).timestamp
 $(INSTANCE_ID_MARKER):
@@ -146,4 +147,14 @@ $(ANGULAR_BASE_DIR)/package.json:
 	mkdir -p $(dir $@)
 	cd $(ANGULAR_BASE_DIR) && npm install || sleep 20 || npm install || sleep 90 || npm install
 	touch $@
+ 
+.PHONY: checks
+checks: git-attributes lint
 
+.PHONY: lint
+lint: $(VENV_BIN)/flake8
+	$(VENV_BIN)/flake8 $(PACKAGE)
+
+.PHONY: git-attributes
+git-attributes:
+	git --no-pager diff --check `git log --oneline | tail -1 | cut --fields=1 --delimiter=' '`

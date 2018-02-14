@@ -1,0 +1,10 @@
+<div id="search-component">
+  <h4>Recherche d'un document</h4>
+  <input #searchBox id="search-box" (keyup)="search(searchBox.value)" />
+  <div>
+    <div *ngFor="let document of documents | async"
+         (click)="gotoDetail(document)" class="search-result" >
+      {{document.docid}} : {{document.officialtitle}}
+    </div>
+  </div>
+</div>

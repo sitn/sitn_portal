@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Doc } from './doc';
-import { DocService } from './doc.service';
+import { Document } from './document';
+import { DocumentService } from './document.service';
 
 @Component({
   selector: 'docs-root',
@@ -11,20 +11,19 @@ import { DocService } from './doc.service';
 
 export class DocsComponent implements OnInit {
 
-  docs: Doc[];
-  title = 'docs';
+  documents: Document[];
 
   constructor(
-    private docService: DocService
+    private documentService: DocumentService
   ) { }
 
-  getDocs(): void {
-    this.docService.getDocs().then(docs => {
-      this.docs = docs;
+  getDocuments(): void {
+    this.documentService.getDocuments().then(documents => {
+      this.documents = documents;
     });
   }
 
   ngOnInit(): void {
-    this.getDocs();
+    this.getDocuments();
   }
 }
