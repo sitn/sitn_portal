@@ -7,4 +7,3 @@ def includeme(config):
     # docs.py
     config.add_route('list', 'docs/list')
     config.add_route('get', 'docs/get/{docid}')
-    config.add_route('docs', '/docs')

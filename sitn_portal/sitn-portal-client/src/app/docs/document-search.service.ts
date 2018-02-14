@@ -6,14 +6,18 @@ import 'rxjs/add/operator/map';
 
 import { Document }           from './document';
 
+declare var sitnDocsConst:object;
+
 @Injectable()
 export class DocumentSearchService {
+
+  private documentsUrl = sitnDocsConst['documentsUrl'];
 
   constructor(private http: Http) {}
 
   search(term: string): Observable<Document[]> {
     return this.http
-               .get(`docs/docid=${term}`)
+               .get(`${this.documentsUrl}/get/?docid=${term}`)
                .map(response => response.json().documents as Document[]);
   }
 }
