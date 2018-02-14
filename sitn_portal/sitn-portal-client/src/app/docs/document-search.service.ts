@@ -17,7 +17,7 @@ export class DocumentSearchService {
 
   search(term: string): Observable<Document[]> {
     return this.http
-               .get(`${this.documentsUrl}/get/?docid=${term}`)
+               .get(`${this.documentsUrl}/get/${term}`)
                .map(response => response.json().documents as Document[]);
   }
 }
