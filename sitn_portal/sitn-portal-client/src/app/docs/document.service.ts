@@ -21,7 +21,7 @@ export class DocumentService {
     const url = `${this.documentsUrl}/get/${docid}`;
     return this.http.get(url)
       .toPromise()
-      .then(response => response.json().documents as Document)
+      .then(response => response.json().document as Document)
       .catch(this.handleError);
   }
 
