@@ -10,8 +10,7 @@ const routes: Routes = [
   { path: '', redirectTo: '/documents', pathMatch: 'full' },
   { path: 'docform',  component: DocumentFormComponent },
   { path: 'docdetail/:docid', component: DocumentDetailComponent },
-  { path: 'doclist',     component: DocumentListComponent },
-  { path: 'documents',     component: DocsComponent }
+  { path: 'doclist',     component: DocumentListComponent }
 ];
 
 @NgModule({
