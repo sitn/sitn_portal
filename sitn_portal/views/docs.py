@@ -5,12 +5,6 @@ from sitn_portal.models import DBSession
 from sitn_portal.models import Documents
 
 
-@view_config(route_name='docs', renderer='docs.html')
-def docs(request):
-
-    return {'one': 'one', 'project': 'sitn_portal'}
-
-
 @view_config(route_name='get', renderer='docs.html')
 def get(request, docid):
 
