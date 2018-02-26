@@ -18,7 +18,7 @@ def edit(request, docid):
 
 
 @view_config(route_name='delete', renderer='docs.html')
-def get(request, docid):
+def delete(request, docid):
     return 'delete'
 
 

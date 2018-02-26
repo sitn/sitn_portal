@@ -2,7 +2,6 @@
     <h1>Saisie de document</h1>
     <div [hidden]="submitted">
     <form (ngSubmit)="onSubmit()" #documentForm="ngForm">
-      {{diagnostic}}
       <div class="form-group">
         <label for="docid">Identifiant du document</label>
         <input type="text" class="form-control" id="docid" required [(ngModel)]="model.docid" name="docid">
