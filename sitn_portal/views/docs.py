@@ -1,31 +1,45 @@
 # -*- coding: utf-8 -*-
 from pyramid.view import view_config
 
+from simplejson import loads
+
 from sqlalchemy import or_
+from sqlalchemy.orm import relationship, backref
 
 from sitn_portal.models import DBSession
 from sitn_portal.models import Documents
 
 
-@view_config(route_name='add', renderer='docs.html')
+@view_config(route_name='add', renderer='json')
 def add(request):
-    return 'add'
+    """ Function to add a new document to the database
+    """
+    data = sloads(request.POST['data'])
+
+    return data
 
 
 @view_config(route_name='edit', renderer='docs.html')
 def edit(request, docid):
+    """ Function to edit an existing document
+    """
     return 'edit'
 
 
 @view_config(route_name='delete', renderer='docs.html')
 def get(request, docid):
+    """ Function to remove/archive a document from the database
+    """
     return 'delete'
 
 
 @view_config(route_name='get', renderer='json')
 def get(request):
+    """ Gets a document based on it's docid. A single result is expected.
+    """
 
     try:
+        # if no docid is given the function throws an error
         docid = request.matchdict['docid']
     except:
         error = 'Erreur. Il manque un identifiant de document.'
@@ -33,6 +47,8 @@ def get(request):
 
     results = DBSession.query(Documents).filter(Documents.docid.like("%"+docid+"%")).order_by(
                 Documents.docid.asc()).all()
+
+    # if there is more than one document with the same docid an error is thrown
     if (len(results) > 1):
         error = 'Erreur. l\'identifiant de document n\'est pas unique.'
         return error
@@ -72,7 +88,13 @@ def get(request):
 
 @view_config(route_name='search', renderer='json')
 def search(request):
+    """ Function to search for a document by its docid or
+        by its official title.
+        Returns a list of documents matching the search criteria
 
+        Args:
+        term (string): The search term
+    """
     term = request.matchdict['term']
 
     documents = DBSession.query(Documents).filter(or_(
@@ -116,6 +138,9 @@ def search(request):
 
 @view_config(route_name='list', renderer='json')
 def list(request):
+    """ Function to list all documents in the database.
+        Returns a document list as dict.
+    """
     documents = DBSession.query(Documents).order_by(
                 Documents.docid.asc()).all()
 
