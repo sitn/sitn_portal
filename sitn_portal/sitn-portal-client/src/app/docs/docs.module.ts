@@ -2,6 +2,7 @@ import { NgModule }      from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule }   from '@angular/forms';
 import { HttpModule }    from '@angular/http';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { DocumentRoutingModule }     from './document-routing.module';
 
@@ -17,7 +18,8 @@ import { DocumentService } from './document.service';
     BrowserModule,
     FormsModule,
     HttpModule,
-    DocumentRoutingModule
+    DocumentRoutingModule,
+    NgbModule.forRoot()
   ],
   declarations: [
     DocsComponent,
