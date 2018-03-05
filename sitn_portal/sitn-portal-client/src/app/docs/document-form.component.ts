@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 
 import { Document }    from './document';
+import { DocumentService } from './document.service';
 
 @Component({
   selector: 'document-form',
@@ -8,13 +9,15 @@ import { Document }    from './document';
   styleUrls: [ './document-form.component.css' ],
 })
 export class DocumentFormComponent {
+  documents: Document[];
+  selectedDocument: Document;
 
   doctype = [0, 1, 2];
   legalstate = [0, 1, 2];
   languages = ['de', 'en', 'fr', 'it', 'rm']
   states = ['AI', 'AG', 'AR', 'BS', 'BL', 'NE'];
 
-  model = new Document(
+  document = new Document(
     'NETST00100000001',
     this.doctype[1],
     this.languages[2],
@@ -29,6 +32,17 @@ export class DocumentFormComponent {
 
   onSubmit() { this.submitted = true; }
 
-  // TODO: Remove this when we're done
-  //get diagnostic() { return JSON.stringify(this.model); }
+
+  private handleError(error: any): Promise<any> {
+    return Promise.reject(error.message || error);
+  }
+
+  constructor(private documentService: DocumentService) { }
+
+  add(document: Document): void {
+    if (!document) {return; }
+    this.documentService.addDocument(document)
+    .then(document => this.document = document)
+    .catch(this.handleError);
+  }
 }

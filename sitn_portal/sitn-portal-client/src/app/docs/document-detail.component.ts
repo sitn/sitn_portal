@@ -13,6 +13,7 @@ import 'rxjs/add/operator/switchMap';
 })
 export class DocumentDetailComponent implements OnInit {
   @Input() document: Document;
+  @Input() err: 'error!';
 
   constructor(
     private documentService: DocumentService,
@@ -23,7 +24,10 @@ export class DocumentDetailComponent implements OnInit {
   ngOnInit(): void {
     this.route.paramMap
       .switchMap((params: ParamMap) => this.documentService.getDocument(params.get('docid')))
-      .subscribe(document => this.document = document);
+      .subscribe(
+        document => this.document = document,
+        err => this.err = err
+      );
   }
 
   goBack(): void {

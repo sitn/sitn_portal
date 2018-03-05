@@ -14,9 +14,20 @@ from sitn_portal.models import Documents
 def add(request):
     """ Function to add a new document to the database
     """
-    data = sloads(request.POST['data'])
 
-    return data
+    document = {}
+
+    try:
+        result = dict(request.params)
+    except:
+        result = {}
+
+    for param in dict(request.params):
+        if 'document' in param:
+            doc = loads(param)
+            document = doc['document']
+
+    return document
 
 
 @view_config(route_name='edit', renderer='docs.html')

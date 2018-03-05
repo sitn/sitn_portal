@@ -4,7 +4,7 @@
   <div><label>id: </label>{{document.docid}}</div>
   <div><label>officialtitle: </label>{{document.officialtitle}}</div>
 </div>
-<div *ngIf="error">
+<div *ngIf="err">
   <p>Une erreur est survenue.</p>
 </div>
 <button (click)="goBack()">Back</button>
