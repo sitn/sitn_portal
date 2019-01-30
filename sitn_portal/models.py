@@ -40,3 +40,12 @@ class DocumentType(Base):
     __table_args__ = {'schema': 'crdppf'}
     id = Column(String, primary_key=True)
     value = Column(Unicode)
+
+class Municipalities(Base):
+    __tablename__ = 'la3_limites_communales'
+    __table_args__ = {'schema': 'general'}
+    idobj = Column(String, primary_key=True)
+    comnom = Column(Unicode)
+    numcom = Column(Integer, nullable=False)
+    nufeco = Column(Integer, nullable=False)
+    image2 = Column(String)

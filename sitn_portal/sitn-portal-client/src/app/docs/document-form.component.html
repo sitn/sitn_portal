@@ -4,12 +4,12 @@
     <form (ngSubmit)="onSubmit()" #documentForm="ngForm">
       <div class="form-group">
         <label for="docid">Identifiant du document</label>
-        <input type="text" class="form-control" id="docid" required [(ngModel)]="model.docid" name="docid">
+        <input type="text" class="form-control" id="docid" required [(ngModel)]="document.docid" name="docid">
       </div>
 
       <div class="form-group">
         <label for="doctype">Type de document</label>
-        <input type="text" class="form-control" id="doctype" required [(ngModel)]="model.doctype" name="doctype" #doctype="ngModel">
+        <input type="text" class="form-control" id="doctype" required [(ngModel)]="document.doctype" name="doctype" #doctype="ngModel">
         <div [hidden]="doctype.valid || doctype.pristine" class="alert alert-danger">
           Ce champs est obligatoire.
         </div>
@@ -19,7 +19,7 @@
         <label for="lang">Langue du document</label>
         <select class="form-control" id="lang"
             required
-            [(ngModel)]="model.lang" name="lang">
+            [(ngModel)]="document.lang" name="lang">
           <option *ngFor="let lang of languages" [value]="lang">{{lang}}</option>
         </select>
        </div>
@@ -33,7 +33,7 @@
 
       <div class="form-group">
         <label for="officialtitle">Titre officiel</label>
-        <input type="text" class="form-control" id="officialtitle" required  [(ngModel)]="model.officialtitle" name="officialtitle"  #officialtitle="ngModel">
+        <input type="text" class="form-control" id="officialtitle" required  [(ngModel)]="document.officialtitle" name="officialtitle"  #officialtitle="ngModel">
         <div [hidden]="officialtitle.valid || officialtitle.pristine" class="alert alert-danger">
           Ce champs est obligatoire.
         </div>
@@ -46,7 +46,7 @@
 
       <div class="form-group">
         <label for="entrydate">Date de saisie</label>
-        <input type="text" class="form-control" id="entrydate" required  [(ngModel)]="model.entrydate" name="entrydate">
+        <input type="text" class="form-control" id="entrydate" required  [(ngModel)]="document.entrydate" name="entrydate">
       </div>
 
       <div class="form-group">
@@ -137,17 +137,20 @@
   <h2>Les informations suivantes ont été transmises:</h2>
   <div class="row">
     <div class="col-xs-3">docid</div>
-    <div class="col-xs-9  pull-left">{{ model.docid }}</div>
+    <div class="col-xs-9  pull-left">{{ document.docid }}</div>
   </div>
   <div class="row">
     <div class="col-xs-3">Titre officiel</div>
-    <div class="col-xs-9 pull-left">{{ model.officialtitle }}</div>
+    <div class="col-xs-9 pull-left">{{ document.officialtitle }}</div>
   </div>
   <div class="row">
     <div class="col-xs-3">Statut juridique</div>
-    <div class="col-xs-9 pull-left">{{ model.legalstate }}</div>
+    <div class="col-xs-9 pull-left">{{ document.legalstate }}</div>
   </div>
   <br>
+  <button (click)="add(document);">
+      Add
+    </button>
   <button class="btn btn-primary" (click)="submitted=false">Edit</button>
 </div>
 </div>

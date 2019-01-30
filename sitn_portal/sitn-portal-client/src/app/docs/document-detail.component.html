@@ -1,10 +1,10 @@
-<h3>Detail du document</h3>
 <div *ngIf="document">
-  <h2>{{document.officialtitle}</h2>
+  <h3>Detail du document</h3>
+  <h2>{{document.officialtitle}}</h2>
   <div><label>id: </label>{{document.docid}}</div>
-  <div>
-    <label>officialtitle: </label>
-    <input [(ngModel)]="document.officialtitle" placeholder="officialtitle">
-  </div>
-  <button (click)="goBack()">Back</button>
+  <div><label>officialtitle: </label>{{document.officialtitle}}</div>
 </div>
+<div *ngIf="err">
+  <p>Une erreur est survenue.</p>
+</div>
+<button (click)="goBack()">Back</button>
